@@ -46,7 +46,8 @@ public class ResidentController {
     @CrossOrigin
     @PostMapping("api/photos")
     public String coversUpload(MultipartFile file) throws Exception {
-        String folder = "E:\\Java\\SpringBoot\\HW\\tempimg";
+        //String folder = "E:\\Java\\SpringBoot\\HW\\tempimg";
+        String folder = "C:/vm/img";
         File imageFolder = new File(folder);
         File f = new File(imageFolder, StringUtils.getRandomString(6) + file.getOriginalFilename()
                 .substring(file.getOriginalFilename().length() - 4));
@@ -54,7 +55,7 @@ public class ResidentController {
             f.getParentFile().mkdirs();
         try {
             file.transferTo(f);
-            String imgURL = "http://0.0.0.0:8443/api/file/" + f.getName();
+            String imgURL = "http://139.224.2.57:8443/api/file/" + f.getName();
             return imgURL;
         } catch (IOException e) {
             e.printStackTrace();

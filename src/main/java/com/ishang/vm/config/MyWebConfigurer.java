@@ -31,7 +31,7 @@ public class MyWebConfigurer implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //        本机测试使用
 //        registry.addResourceHandler("/api/file/**").addResourceLocations("file:" + "E:/Java/SpringBoot/HW/tempimg/");
-        registry.addResourceHandler("/api/file/**").addResourceLocations("file:" + "E:\\Java\\SpringBoot\\HW\\tempimg\\");
+        registry.addResourceHandler("/api/file/**").addResourceLocations("file:" + "C:/vm/img/");
     }
 }
 

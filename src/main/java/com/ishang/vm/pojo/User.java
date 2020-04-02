@@ -4,8 +4,7 @@ import javax.persistence.*;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+
 
 //@Getter:是一个Lombok注解,用来为POJO类生产getter方法,免除我们自己手动生成;
 //@AllArgsConstructor:是一个Lombok注解,,用来为POJO类生成全参构造器;
@@ -17,9 +16,31 @@ import lombok.Getter;
 @Table(name = "user")
 @JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
 @ApiModel(description = "用户模型")
-@Getter
-@AllArgsConstructor
 public class User {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
