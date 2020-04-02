@@ -46,7 +46,7 @@ public class ResidentController {
     @CrossOrigin
     @PostMapping("api/photos")
     public String coversUpload(MultipartFile file) throws Exception {
-        String folder = "E:/Java/SpringBoot/HW/tempimg";
+        String folder = "/root/vm-backend/img";
         File imageFolder = new File(folder);
         File f = new File(imageFolder, StringUtils.getRandomString(6) + file.getOriginalFilename()
                 .substring(file.getOriginalFilename().length() - 4));
