@@ -1,4 +1,4 @@
-package com.ishang.vm.Controller;
+package com.ishang.vm.controller;
 import com.ishang.vm.pojo.Resident;
 import com.ishang.vm.service.ResidentService;
 
@@ -46,7 +46,7 @@ public class ResidentController {
     @CrossOrigin
     @PostMapping("api/photos")
     public String coversUpload(MultipartFile file) throws Exception {
-        String folder = "/root/vm-backend/img";
+        String folder = "E:\\Java\\SpringBoot\\HW\\tempimg";
         File imageFolder = new File(folder);
         File f = new File(imageFolder, StringUtils.getRandomString(6) + file.getOriginalFilename()
                 .substring(file.getOriginalFilename().length() - 4));
@@ -54,7 +54,7 @@ public class ResidentController {
             f.getParentFile().mkdirs();
         try {
             file.transferTo(f);
-            String imgURL = "http://localhost:8443/api/file/" + f.getName();
+            String imgURL = "http://0.0.0.0:8443/api/file/" + f.getName();
             return imgURL;
         } catch (IOException e) {
             e.printStackTrace();
