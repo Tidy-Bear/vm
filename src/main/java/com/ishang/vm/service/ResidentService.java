@@ -26,4 +26,8 @@ public class ResidentService {
         residentDAO.deleteById(id);
     }
 
+    public List<Resident> Search(String keywords){
+        return residentDAO.findAllByNameLikeOrEmplaceLike('%' + keywords + '%', '%' + keywords + '%');
+    }
+
 }
