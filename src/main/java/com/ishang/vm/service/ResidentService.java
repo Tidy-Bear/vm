@@ -18,12 +18,22 @@ public class ResidentService {
         return residentDAO.findAll(sort);
     }
 
-    public void addOrUpdate(Resident resident) {
-        residentDAO.save(resident);
+    public boolean addOrUpdate(Resident resident) {
+        try {
+            residentDAO.save(resident);
+        }catch (IllegalArgumentException e){
+            return false;
+        }
+        return true;
     }
 
-    public void deleteById(int id) {
-        residentDAO.deleteById(id);
+    public boolean deleteById(int id) {
+        try{
+            residentDAO.deleteById(id);
+        }catch (IllegalArgumentException e){
+            return false;
+        }
+        return true;
     }
 
     public List<Resident> Search(String keywords){

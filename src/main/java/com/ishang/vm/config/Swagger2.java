@@ -1,4 +1,4 @@
-package com.ishang.vm;
+package com.ishang.vm.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +32,7 @@ public class Swagger2 {
                 // 设置页面标题
                 .title("东赵家村管综合信息化平台-后端API接口文档")
                 // 设置联系人
-                .contact(new Contact("kiols6", "http://github.com/kiols6/vm", "kiols6@aliyun.com"))
+                .contact(new Contact("kiols6", "http://github.com/Suphx/vm", "kiols6@aliyun.com"))
                 // 描述
                 .description("欢迎访问东赵家村管综合信息化平台接口文档，这里是描述信息")
                 // 定义版本号

@@ -3,7 +3,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+//import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.ToString;
+
+import java.util.List;
 
 
 //@Getter:是一个Lombok注解,用来为POJO类生产getter方法,免除我们自己手动生成;
@@ -11,57 +15,59 @@ import io.swagger.annotations.ApiModelProperty;
 //@ApiModel:是一个Swagger注解,用来为POJO类做注释;
 //@ApiModelProperty:是一个Swagger注解,用来为POJO类的属性做注释。
 
-
+@ApiModel(description = "用户模型")
+@Data
 @Entity
 @Table(name = "user")
+@ToString
 @JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
-@ApiModel(description = "用户模型")
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    private int id;
 
-    @ApiModelProperty("用户ID")
-    int id;
-    @ApiModelProperty("用户名")
-    String username;
-    @ApiModelProperty("用户密码")
-    String password;
-    @ApiModelProperty("盐值")
-    String salt;
+    /**
+     * Username.
+     */
+    private String username;
 
+    /**
+     * Password.
+     */
+    private String password;
 
-    public int getId() {
-        return id;
-    }
+    /**
+     * Salt for encoding.
+     */
+    private String salt;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    /**
+     * Real name.
+     */
+    private String name;
 
-    public String getUsername() {
-        return username;
-    }
+    /**
+     * Phone number.
+     */
+    private String phone;
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    /**
+     * Email address.
+     */
+    private String email;
 
-    public String getPassword() {
-        return password;
-    }
+    /**
+     * User status.
+     */
+    private boolean enabled;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
+    /**
+     * Transient property for storing role owned by current user.
+     */
+    @Transient
+    private List<AdminRole> roles;
 
 
 }

@@ -5,85 +5,74 @@ import com.ishang.vm.service.UserService;
 import io.swagger.annotations.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
-import org.apache.shiro.crypto.hash.SimpleHash;
+
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 import com.ishang.vm.pojo.User;
 
-import javax.servlet.http.HttpSession;
 
 
-@Controller
-@Api("user相关api")
+
+@RestController
+@Api("user-用户登录/注册/登出/身份认证API")
 public class LoginController {
 
     @Autowired
     UserService userService;
 
-    @CrossOrigin
-    @ApiOperation("根据id获取用户信息（用户登录）")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name="id",dataType = "int",required = true,value="用户的id",defaultValue = "1")
-    })
-    @ApiResponses({
-            @ApiResponse(code=400,message="请求参数没填好"),
-            @ApiResponse(code=404,message="请求路径没有或者页面跳转路径错误")
-    })
-    @PostMapping(value = "/api/login")
-    @ResponseBody
+    @PostMapping("/api/login")
     public Result login(@RequestBody User requestUser) {
         String username = requestUser.getUsername();
+        username = HtmlUtils.htmlEscape(username);
+
         Subject subject = SecurityUtils.getSubject();
 //        subject.getSession().setTimeout(10000);
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, requestUser.getPassword());
+        usernamePasswordToken.setRememberMe(true);
         try {
             subject.login(usernamePasswordToken);
+            User user = userService.findByUsername(username);
+            if (!user.isEnabled()) {
+                return ResultFactory.buildFailResult("该用户已被禁用");
+            }
             return ResultFactory.buildSuccessResult(username);
-        } catch (AuthenticationException e) {
-            String message = "账号密码错误";
-            return ResultFactory.buildFailResult(message);
+        } catch (IncorrectCredentialsException e) {
+            return ResultFactory.buildFailResult("密码错误");
+        } catch (UnknownAccountException e) {
+            return ResultFactory.buildFailResult("账号不存在");
         }
     }
 
-    @ApiOperation("新增用户信息（用户注册）")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(paramType = "query",name="id",dataType = "int",required = true,value="用户的id",defaultValue = "1")
-//    })
-    @ApiResponses({
-            @ApiResponse(code=400,message="请求参数没填好"),
-            @ApiResponse(code=404,message="请求路径没有或者页面跳转路径错误")
-    })
-    @PostMapping("api/register")
-    @ResponseBody
+    @PostMapping("/api/register")
     public Result register(@RequestBody User user) {
-        String username = user.getUsername();
-        String password = user.getPassword();
-        username = HtmlUtils.htmlEscape(username);
-        user.setUsername(username);
-
-        boolean exist = userService.isExist(username);
-        if (exist) {
-            String message = "用户名已被使用";
-            return ResultFactory.buildFailResult(message);
+        int status = userService.register(user);
+        switch (status) {
+            case 0:
+                return ResultFactory.buildFailResult("用户名和密码不能为空");
+            case 1:
+                return ResultFactory.buildSuccessResult("注册成功");
+            case 2:
+                return ResultFactory.buildFailResult("用户已存在");
         }
+        return ResultFactory.buildFailResult("未知错误");
+    }
 
-        // 生成盐,默认长度 16 位
-        String salt = new SecureRandomNumberGenerator().nextBytes().toString();
-        // 设置 hash 算法迭代次数
-        int times = 2;
-        // 得到 hash 后的密码
-        String encodedPassword = new SimpleHash("md5", password, salt, times).toString();
-        // 存储用户信息，包括 salt 与 hash 后的密码
-        user.setSalt(salt);
-        user.setPassword(encodedPassword);
-        userService.add(user);
+    @GetMapping("/api/logout")
+    public Result logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return ResultFactory.buildSuccessResult("成功登出");
+    }
 
-        return ResultFactory.buildSuccessResult(user);
+    @GetMapping("/api/authentication")
+    public String authentication() {
+        return "身份认证成功";
     }
 
 }
