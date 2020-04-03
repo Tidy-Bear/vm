@@ -1,6 +1,6 @@
 # 东赵家村管综合信息化平台后端  
-后端API文档：139.224.2.57:8443/swagger-ui.html  
-前端DEMO：106.13.185.246:8081
+后端API文档：http://139.224.2.57:8443/swagger-ui.html  
+前端DEMO：http://106.13.185.246:8081
 ## 后端技术栈
 * Springboot
 * SpringData + JPA
