@@ -17,6 +17,20 @@ import io.swagger.annotations.ApiModelProperty;
 @JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
 @ApiModel(description = "用户模型")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+
+    @ApiModelProperty("用户ID")
+    int id;
+    @ApiModelProperty("用户名")
+    String username;
+    @ApiModelProperty("用户密码")
+    String password;
+    @ApiModelProperty("盐值")
+    String salt;
+
+
     public int getId() {
         return id;
     }
@@ -41,14 +55,13 @@ public class User {
         this.password = password;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    public String getSalt() {
+        return salt;
+    }
 
-    @ApiModelProperty("用户ID")
-    int id;
-    @ApiModelProperty("用户名")
-    String username;
-    @ApiModelProperty("用户密码")
-    String password;
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+
 }
