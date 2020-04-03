@@ -58,7 +58,7 @@ public class ResidentController {
             f.getParentFile().mkdirs();
         try {
             file.transferTo(f);
-            String imgURL = "http://localhost:8443/api/file/" + f.getName();
+            String imgURL = "http://139.224.2.57:8443/api/file/" + f.getName();
             return imgURL;
         } catch (IOException e) {
             e.printStackTrace();
