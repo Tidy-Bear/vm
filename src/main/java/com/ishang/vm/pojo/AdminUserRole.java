@@ -10,12 +10,34 @@ import javax.persistence.*;
  * Relations between users and role.
  *
  */
-@Data
 @Entity
 @Table(name = "admin_user_role")
-@ToString
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class AdminUserRole {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public int getRid() {
+        return rid;
+    }
+
+    public void setRid(int rid) {
+        this.rid = rid;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

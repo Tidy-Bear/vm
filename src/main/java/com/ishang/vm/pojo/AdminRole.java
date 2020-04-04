@@ -11,10 +11,9 @@ import java.util.List;
  * Role entity.
  */
 
-@Data
+
 @Entity
 @Table(name = "admin_role")
-@ToString
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class AdminRole {
     @Id
@@ -50,4 +49,52 @@ public class AdminRole {
      */
     @Transient
     private List<AdminMenu> menus;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNameZh() {
+        return nameZh;
+    }
+
+    public void setNameZh(String nameZh) {
+        this.nameZh = nameZh;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<AdminPermission> getPerms() {
+        return perms;
+    }
+
+    public void setPerms(List<AdminPermission> perms) {
+        this.perms = perms;
+    }
+
+    public List<AdminMenu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<AdminMenu> menus) {
+        this.menus = menus;
+    }
 }

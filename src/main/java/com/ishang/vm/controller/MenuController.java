@@ -5,9 +5,12 @@ import com.ishang.vm.result.ResultFactory;
 import com.ishang.vm.service.AdminMenuService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-@Api("role-角色菜单API")
+@Api("role-Dashboard菜单API")
+
 @RestController
 public class MenuController {
     @Autowired
